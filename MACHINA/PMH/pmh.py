@@ -166,7 +166,7 @@ def read_leaf_labeling(path):
     with open(path, "r") as f:
         for line in f:
             line = line.strip()
-            if not line or line.startswith("#"):
+            if not line:
                 continue
             parts = line.split()
             if len(parts) != 2:
@@ -695,7 +695,7 @@ def site_graph_from_labeling(tree, labeling):
 
 def write_site_graph(path, sites, edge_counts):
     """
-    Outputs site graph as a tab separated text file
+    Outputs site graph as a tab separated text file in format source_site\ttarget_site\tmultiplicity
 
     Arguments:
         path: Path for the file
@@ -704,7 +704,6 @@ def write_site_graph(path, sites, edge_counts):
 
     """
     with open(path, "w") as f:
-        f.write("source_site\ttarget_site\tmultiplicity\n")
         for (s, t), mult in sorted(edge_counts.items(),
                                    key=lambda x: (x[0][0], x[0][1])):
             src = sites.labels[s]
