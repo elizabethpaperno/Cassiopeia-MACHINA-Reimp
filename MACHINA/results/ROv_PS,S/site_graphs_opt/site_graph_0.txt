@@ -1,0 +1,7 @@
+source_site	target_site	multiplicity
+ROv	ApC	2
+ROv	LFTB	2
+ROv	LOv	4
+ROv	Om	2
+ROv	RFTA	1
+ROv	SBwl	3
