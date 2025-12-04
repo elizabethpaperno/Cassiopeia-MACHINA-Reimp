@@ -1,4 +1,3 @@
-# source_site	target_site	multiplicity
 LOv	ApC	1
 LOv	LFTB	1
 LOv	Om	1
