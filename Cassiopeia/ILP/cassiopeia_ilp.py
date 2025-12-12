@@ -17,6 +17,9 @@ from .tree_utils import (
 from .potential_graph import build_potential_graph_from_cells
 from .steiner_ilp import solve_steiner_tree_ilp
 
+from collections import defaultdict
+from .tree_utils import list_to_state, state_to_str
+
 
 def _write_text(path: str, s: str) -> None:
     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
@@ -63,11 +66,32 @@ def run_ilp(
     # build rooted tree + Newick
     rooted = edges_to_rooted_tree(G.root, res.selected_edges)
 
-    # leaf labels:
-    leaf_label_fn = build_leaf_label_fn_from_cells(states_by_cell)
+    # build mapping
+    state_to_cells = defaultdict(list)
+    for cell, st in states_by_cell.items():
+        state_to_cells[st].append(cell)
 
-    # branch lengths:
+    # create new leaf nodes:
+    CELL_SENTINEL = -777777 
+    cell_leaf_nodes = {}  # leaf_node_state -> label str
+    for st, cells in state_to_cells.items():
+        for cell in cells:
+            leaf_node = (CELL_SENTINEL, int(cell)) 
+            cell_leaf_nodes[leaf_node] = f"{cell}_{state_to_str(st)}"
+            rooted.children.setdefault(st, []).append(leaf_node)
+            rooted.children.setdefault(leaf_node, [])
+            rooted.parent[leaf_node] = st
+
+
+    # leaf labels:
+    def leaf_label_fn(node):
+        if isinstance(node, tuple) and len(node) == 2 and node[0] == CELL_SENTINEL:
+            return cell_leaf_nodes[node]
+        return state_to_str(node)
+
     def branch_len(u, v):
+        if isinstance(v, tuple) and len(v) == 2 and v[0] == CELL_SENTINEL:
+            return 0
         return edge_cost(u, v, missing=missing)
 
     newick = to_newick(
@@ -76,6 +100,7 @@ def run_ilp(
         internal_label_fn=lambda _st: "",
         branch_length_fn=branch_len,
     )
+
 
     _write_text(output_newick, newick)
 
@@ -96,6 +121,8 @@ def run_ilp(
         lines.append(f"ILP status: {res.status}")
         lines.append(f"ILP objective: {res.objective_value}")
         lines.append(f"selected_edges: {len(res.selected_edges)}")
+        lines.append(f"num_cell_leaves_exported: {len(states_by_cell)}")
+
         lines.append("")
         max_terms = max(len(v) for v in cell_to_terminal_states.values()) if cell_to_terminal_states else 0
         lines.append(f"max imputed terminals for any cell: {max_terms}")

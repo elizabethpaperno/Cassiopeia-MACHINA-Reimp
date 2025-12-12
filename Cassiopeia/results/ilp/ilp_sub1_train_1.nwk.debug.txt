@@ -1,0 +1,16 @@
+input_file: Cassiopeia/Greedy/sub1_train_1.txt
+missing: -1, unmutated: 0
+max_imputations_per_terminal: 256
+include_all_pair_edges: False
+
+num_cells: 9
+num_terminals (after imputation): 6
+num_nodes (potential graph): 800
+num_edges (potential graph): 3696
+
+ILP status: Optimal
+ILP objective: 15.0
+selected_edges: 15
+num_cell_leaves_exported: 9
+
+max imputed terminals for any cell: 1
