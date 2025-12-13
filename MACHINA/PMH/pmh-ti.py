@@ -19,8 +19,6 @@ Strategy (practical, limited):
     - record mu, phi and choose the candidate with minimal (mu, phi).
 - Output: chosen tree, labeling(s), mu, phi, sigma, and frequency matrix F.
 
-This is NOT an exhaustive or theoretically optimal tree search: it is a practical,
-extensible implementation to get PMH-TI working for modest polytomies.
 """
 
 import argparse
@@ -296,6 +294,8 @@ def pmhti_main(tree_path, labels_path, primary_label, pattern_set, outdir):
 # -------------------------
 # CLI
 # -------------------------
+
+"""
 def main():
     parser = argparse.ArgumentParser(description="PMH-TI wrapper using pmh.py helpers.")
     parser.add_argument("--tree", required=True, help="Clone tree edge list file (parent child per line)")
@@ -307,6 +307,132 @@ def main():
 
     outdir = pmhti_main(args.tree, args.labels, args.primary, args.pattern_set, args.outdir)
     print("Done.")
+"""
+def main():
+    parser = argparse.ArgumentParser(
+        description=(
+            "PMH-TI: Parsimonious Migration History with Tree Inference. "
+            "Jointly infers clone tree structure and migration history "
+            "under pattern sets {PS}, {PS,S}, {PS,S,M}, {PS,S,M,R}."
+        )
+    )
+    parser.add_argument("--tree", required=True, help="Unresolved clone tree file")
+    parser.add_argument("--labels", required=True, help="Leaf tissue labeling file")
+    parser.add_argument("--primary", required=True, help="Primary anatomical site")
+    parser.add_argument(
+        "--pattern-set",
+        required=True,
+        help="One of: 'PS', 'PS,S', 'PS,S,M', 'PS,S,M,R'",
+    )
+
+    args = parser.parse_args()
+
+    # ----------------------------
+    # Load inputs
+    # ----------------------------
+    tree = read_clone_tree(args.tree)
+    leaf_labeling = read_leaf_labeling(args.labels)
+    sites = SiteIndex(set(leaf_labeling.values()), primary_site_label=args.primary)
+
+    # ----------------------------
+    # Solve PMH-TI
+    # Returns: list of (tree, labeling) pairs
+    # ----------------------------
+    solutions, mu_star, phi_star, sigma_star = solve_pmh_ti_with_pattern_set(
+        tree, sites, leaf_labeling, args.pattern_set
+    )
+
+    normalized = args.pattern_set.replace(" ", "")
+    num_mp = len(solutions)
+
+    # ----------------------------
+    # Compute stats for each solution
+    # ----------------------------
+    solution_stats = []
+    for idx, (T, labeling) in enumerate(solutions):
+        mu, phi, sigma = compute_migration_stats(T, sites, labeling)
+        solution_stats.append((idx, T, labeling, mu, phi, sigma))
+
+    # ----------------------------
+    # Select optimal solutions
+    # (PMH-TI is already ILP-optimized, but keep logic consistent)
+    # ----------------------------
+    opt_solutions = [
+        (idx, T, lab, mu, phi, sigma)
+        for (idx, T, lab, mu, phi, sigma) in solution_stats
+        if (mu, phi, sigma) == (mu_star, phi_star, sigma_star)
+    ]
+    num_opt = len(opt_solutions)
+
+    # ----------------------------
+    # Output directory
+    # ----------------------------
+    base_dir = Path("results")
+    pattern_dir = base_dir / f"{args.primary}_{normalized}"
+    pattern_dir.mkdir(parents=True, exist_ok=True)
+
+    # ----------------------------
+    # Summary file
+    # ----------------------------
+    with open(pattern_dir / "summary.txt", "w") as f:
+        f.write(f"pattern_set\t{normalized}\n")
+        f.write(f"primary_site\t{args.primary}\n")
+        f.write(f"num_sites\t{sites.m}\n")
+        f.write(f"num_vertices\t{len(tree.vertices)}\n")
+        f.write(f"mu_opt\t{mu_star}\n")
+        f.write(f"phi_opt\t{phi_star}\n")
+        f.write(f"sigma_opt\t{sigma_star}\n")
+        f.write(f"n_mp_solutions\t{num_mp}\n")
+        f.write(f"n_opt_solutions\t{num_opt}\n")
+
+    # ----------------------------
+    # All MP labelings
+    # ----------------------------
+    with open(pattern_dir / "labelings_all_mp.txt", "w") as f:
+        for idx, T, lab, mu, phi, sigma in solution_stats:
+            f.write(f"# solution {idx}\tmu={mu}\tphi={phi}\tsigma={sigma}\n")
+            for i in sorted(lab.keys(), key=lambda x: T.vertices[x]):
+                f.write(f"{T.vertices[i]}\t{sites.labels[lab[i]]}\n")
+            f.write("\n")
+
+    # ----------------------------
+    # Optimal labelings
+    # ----------------------------
+    with open(pattern_dir / "labelings_opt.txt", "w") as f:
+        for idx, T, lab, mu, phi, sigma in opt_solutions:
+            f.write(f"# solution {idx}\tmu={mu}\tphi={phi}\tsigma={sigma}\n")
+            for i in sorted(lab.keys(), key=lambda x: T.vertices[x]):
+                f.write(f"{T.vertices[i]}\t{sites.labels[lab[i]]}\n")
+            f.write("\n")
+
+    # ----------------------------
+    # Site graphs: all MP
+    # ----------------------------
+    sg_all_dir = pattern_dir / "site_graphs_all_mp"
+    sg_all_dir.mkdir(exist_ok=True)
+    for idx, T, lab, mu, phi, sigma in solution_stats:
+        edges = site_graph_from_labeling(T, lab)
+        write_site_graph(sg_all_dir / f"site_graph_{idx}.txt", sites, edges)
+
+    # ----------------------------
+    # Site graphs: optimal
+    # ----------------------------
+    sg_opt_dir = pattern_dir / "site_graphs_opt"
+    sg_opt_dir.mkdir(exist_ok=True)
+    for idx, T, lab, mu, phi, sigma in opt_solutions:
+        edges = site_graph_from_labeling(T, lab)
+        write_site_graph(sg_opt_dir / f"site_graph_{idx}.txt", sites, edges)
+
+    # ----------------------------
+    # Terminal output
+    # ----------------------------
+    print(f"P = {normalized}, primary = {args.primary}")
+    print(f"mu* = {mu_star}, phi* = {phi_star}, sigma* = {sigma_star}")
+    print(
+        f"#MP solutions = {num_mp}, #optimal solutions = {num_opt}"
+    )
+    print(f"Results written to: {pattern_dir}")
+
 
 if __name__ == "__main__":
     main()
