@@ -1,0 +1,9 @@
+real 30.03
+user 30.33
+sys 1.52
+real 30.00
+user 30.03
+sys 1.81
+real 30.01
+user 30.02
+sys 1.86

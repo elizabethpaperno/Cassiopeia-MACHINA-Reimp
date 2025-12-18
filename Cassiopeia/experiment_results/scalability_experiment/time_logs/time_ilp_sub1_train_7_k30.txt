@@ -1,0 +1,9 @@
+real 134.20
+user 132.12
+sys 2.97
+real 133.20
+user 131.48
+sys 2.49
+real 133.89
+user 132.28
+sys 2.32
