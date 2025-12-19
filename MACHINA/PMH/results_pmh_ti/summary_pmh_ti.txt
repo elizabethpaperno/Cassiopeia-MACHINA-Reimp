@@ -2,7 +2,7 @@ chosen_candidate	original
 pattern_set	PS,S,M,R
 primary	LOv
 num_sites	7
-num_vertices	24
-mu_opt	13
-phi_opt	7
-sigma_opt	2
+num_vertices	19
+mu_opt	12
+phi_opt	6
+sigma_opt	1
