@@ -1,5 +1,5 @@
-dataset,n_cells,greedy_time_n,greedy_time_mean_s,greedy_time_std_s,ilp_time_n,ilp_time_mean_s,ilp_time_std_s,greedy_parsimony,ilp_parsimony_obj,ilp_status,parsimony_improvement,parsimony_improvement_pct
-sub1_train_7_k10,10,3,0.3867,0.0450,3,14.2900,0.0510,19,25.0000,Optimal,,
-sub1_train_7_k20,20,3,0.3100,0.0082,3,26.7567,0.1580,36,32.0000,Optimal,,
-sub1_train_7_k30,30,3,0.3600,0.0497,3,133.7633,0.4180,52,44.0000,Optimal,,
-sub1_train_7_k39,39,3,0.3800,0.0712,3,561.4633,8.0664,58,53.0000,Optimal,,
+dataset,n_cells,greedy_time_n,greedy_time_mean_s,greedy_time_std_s,ilp_time_n,ilp_time_mean_s,ilp_time_std_s,Hybrid time,greedy_parsimony,ilp_parsimony_obj,ilp_status,Hybrid parsimony
+sub1_train_7_k10,10,3,0.3867,0.0450,3,14.2900,0.0510,14.48,19,25.0000,Optimal,23
+sub1_train_7_k20,20,3,0.3100,0.0082,3,26.7567,0.1580,5.54,36,32.0000,Optimal,44
+sub1_train_7_k30,30,3,0.3600,0.0497,3,133.7633,0.4180,11.43,52,44.0000,Optimal,65
+sub1_train_7_k39,39,3,0.3800,0.0712,3,561.4633,8.0664,45.89,58,53.0000,Optimal,85
