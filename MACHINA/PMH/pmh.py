@@ -26,12 +26,6 @@ Leaf labeling file: leaf to anatomical site labels, one per line:
     B1 LOv
     ...
 
-- All labeled vertices are leaves in the clone tree.
-- The primary anatomical site (for example "LOv") is given as a label and
-  must appear in the leaf labeling.
-- The primary site is treated as site index zero, matching the convention
-  in the MACHINA supplement where site one is primary.
-
 Output layout (all under results/):
 
     results/PRIMARY_PATTERNSET/
@@ -907,7 +901,8 @@ def main():
 
     # Save output files to results dir
     base_dir = Path("results")
-    pattern_dir = base_dir / "{}_{}".format(args.primary, normalized)
+    tree_stem = Path(args.tree).stem
+    pattern_dir = base_dir / "{}_{}_{}".format(args.primary, normalized, tree_stem)
     pattern_dir.mkdir(parents=True, exist_ok=True)
 
     # Summary file
