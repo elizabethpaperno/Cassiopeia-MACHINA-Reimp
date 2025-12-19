@@ -1,0 +1,7 @@
+pattern_set	PS,S,M
+primary_site	prostate
+num_sites	4
+num_vertices	15
+mu_opt	3
+phi_opt	3
+sigma_opt	1

@@ -1,0 +1,4 @@
+prostate-	(PS)	3	3	1	pPS	3003	3003	0.0
+prostate-	(PS,S)	3	3	1	pPS	3003	3003	0.0
+prostate-	(PS,S,M)	3	3	1	pPS	3003	3003	0.0
+prostate-	(PS,S,M,R)	3	3	1	pR	3003	3003	0.0

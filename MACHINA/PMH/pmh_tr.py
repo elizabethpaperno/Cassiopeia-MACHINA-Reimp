@@ -422,7 +422,7 @@ def main():
     # Detailed results
     for ps, best_solutions, mu_star, phi_star, sigma_star in results:
         ps_norm = ps.replace(" ", "")
-        pattern_dir = Path("results") / f"{args.primary}_{ps_norm}"
+        pattern_dir = output_dir / f"results" / f"{args.primary}_{ps_norm}"
         pattern_dir.mkdir(parents=True, exist_ok=True)
 
         # Summary
