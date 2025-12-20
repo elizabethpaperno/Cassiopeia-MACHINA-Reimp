@@ -38,7 +38,7 @@ Each subdirectory includes:
 ### `visualizations/`
 Contains scripts for visualizing PMH, PMH-TI, and PMH-TR outputs.
 
-- `draw_tree.py`:  
+- `draw_migration_graph.py`:  
   Inputs:
   - `--site_graph`: a migration (site) graph file (e.g. produced by `pmh.py`) in the format:
     ```
@@ -100,7 +100,7 @@ cd ../
 ```
 From MACHINA directory run:
 ```bash 
-python visualizations/draw_tree.py \
+python visualizations/draw_migration_graph.py \
   --site-graph PMH/results/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.txt \
   --colors data/mcpherson_2016/patient1.colormap\
   --output PMH/results/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.png \
@@ -161,8 +161,13 @@ cd ../
 ```
 From MACHINA directory run:
 ```bash 
+<<<<<<< HEAD
 python visualizations/draw_tree.py \
   --site-graph PMH-TI/results_pmh_ti/site_graph_pmh_ti.txt \
+=======
+python visualizations/draw_migration_graph.py \
+  --site-graph PMH/results_pmh_ti/site_graph_pmh_ti.txt \
+>>>>>>> 12eee90f0ea5d34470047a3e87383452f4f8cccb
   --colors data/hoadley_2016/A7.colormap \
   --output ../figures/A7_breast_site_graph.png \
   --primary breast
@@ -221,7 +226,7 @@ python pmh_tr.py \
 ### Get Associated Visualization
 From MACHINA directory:
 ```bash
-python visualizations/draw_tree.py \
+python visualizations/draw_migration_graph.py \
   --site-graph PMH/results_pmh_ti/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.txt \
   --colors data/mcpherson_2016/patient1.colormap \
   --output PMH/results_pmh_ti/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.png \

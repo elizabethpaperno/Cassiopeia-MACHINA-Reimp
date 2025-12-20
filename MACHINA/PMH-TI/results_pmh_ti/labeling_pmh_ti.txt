@@ -1,0 +1,22 @@
+# candidate refinement_1_0, mu=6, phi=5, sigma=3
+1	breast
+10	brain
+10_brain	brain
+1_breast	breast
+2	breast
+3	breast
+4	brain
+4_brain	brain
+5	liver
+5_liver	liver
+6	lung
+6_lung	lung
+6_rib	rib
+7	brain
+7_lung	lung
+8	kidney
+8_kidney	kidney
+9	liver
+9_liver	liver
+X_0	breast
+X_1	breast

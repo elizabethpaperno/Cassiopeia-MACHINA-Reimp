@@ -1,0 +1,6 @@
+breast	brain	1
+breast	liver	1
+breast	lung	1
+brain	lung	1
+liver	kidney	1
+lung	rib	1
