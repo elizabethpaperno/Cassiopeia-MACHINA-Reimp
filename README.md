@@ -168,6 +168,8 @@ python visualizations/draw_tree.py \
   --primary breast
 ```
 
+---
+
 ## PMH-TR
 ### `PMH/pmh_tr.py`
 Main script for running Parsimonious Migration History with Tree Resolution (PMH-TR).
@@ -197,7 +199,7 @@ A top-level `result.txt` file provides a summary of all pattern sets in tabular 
 
 ---
 
-### `PMH/results_pmh_ti/`
+### `PMH/results_pmh_tr/`
 Automatically created directory where all PMH-TR outputs are stored.
 
 For each run, subdirectories are organized by pattern set, containing results from that optimization.
