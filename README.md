@@ -247,7 +247,7 @@ Each run produces the following files:
 
 ### Run PMH-TI
 
-From PMH directory:
+From PMH-TI directory:
 
 ```bash
 python pmh-ti.py \
@@ -283,15 +283,10 @@ python visualizations/draw_migration_graph.py \
 
 Main script for running Parsimonious Migration History with Tree Resolution (PMH-TR).
 
-This extension of PMH handles **unresolved clone trees** (trees with polytomies, i.e., nodes with more than two children). Rather than explicitly enumerating all binary refinements of the tree, PMH-TR integrates tree resolution directly into the ILP formulation. Internal nodes are labeled with anatomical sites through the ILP optimization, which implicitly finds the optimal tree structure that minimizes migrations.
-
-#### Key Innovation
-
-Polytomy resolution is integrated directly into the ILP formulation rather than as a pre-processing step, allowing simultaneous optimization of:
-
-- Vertex labeling (anatomical site assignments)
-- Tree structure (which binary resolution to use)
-- Migration graph topology
+- Loads a clone tree and leaf site labels, fixing the primary site at the root.
+- Resolves polytomies implicitly via vertex site labeling in an ILP-based PMH-TR formulation.
+- Supports multiple migration pattern sets and selects solutions minimizing μ, then φ, then σ.
+- Outputs optimal labelings, migration graphs, and summary results.
 
 #### Inputs
 
@@ -299,7 +294,7 @@ Polytomy resolution is integrated directly into the ILP formulation rather than 
 - `--labels`: path to a `.labeling` file
 - `--primary`: primary anatomical site
 - `--pattern-set`: one of `PS`, `PS,S`, `PS,S,M`, `PS,S,M,R`
-- `-o` / `--output`: output directory (default: `patient1_tr/`)
+- `-o` / `--output`: output directory
 
 #### Outputs
 
