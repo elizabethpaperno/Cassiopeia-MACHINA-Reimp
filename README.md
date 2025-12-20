@@ -171,7 +171,7 @@ python visualizations/draw_migration_graph.py \
 ---
 
 ## PMH-TR
-### `PMH/pmh_tr.py`
+### `PMH-TR/pmh_tr.py`
 Main script for running Parsimonious Migration History with Tree Resolution (PMH-TR).
 
 This extension of PMH handles **unresolved clone trees** (trees with polytomies, i.e., nodes with more than two children). Rather than explicitly enumerating all binary refinements of the tree, PMH-TR integrates tree resolution directly into the ILP formulation. Internal nodes are labeled with anatomical sites through the ILP optimization, which implicitly finds the optimal tree structure that minimizes migrations.
@@ -199,7 +199,7 @@ A top-level `result.txt` file provides a summary of all pattern sets in tabular 
 
 ---
 
-### `PMH/results_pmh_tr/`
+### `PMH-TR/results/`
 Automatically created directory where all PMH-TR outputs are stored.
 
 For each run, subdirectories are organized by pattern set, containing results from that optimization.
@@ -209,21 +209,11 @@ For each run, subdirectories are organized by pattern set, containing results fr
 ## PMH-TR Example Runs
 
 ### Run PMH-TR
-From PMH directory:
+From PMH-TR directory:
 ```bash
 python pmh_tr.py \
   --tree ../data/mcpherson_2016/patient1.tree \
   --labels ../data/mcpherson_2016/patient1.labeling \
   --primary ROv \
   --pattern-set "PS,S"
-```
-
-### Get Associated Visualization
-From MACHINA directory:
-```bash
-python visualizations/draw_migration_graph.py \
-  --site-graph PMH/results_pmh_ti/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.txt \
-  --colors data/mcpherson_2016/patient1.colormap \
-  --output PMH/results_pmh_ti/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.png \
-  --primary ROv
 ```
