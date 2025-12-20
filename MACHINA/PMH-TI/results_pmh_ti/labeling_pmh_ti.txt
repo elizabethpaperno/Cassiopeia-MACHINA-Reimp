@@ -1,4 +1,4 @@
-# candidate refinement_1_0, mu=6, phi=5, sigma=3
+# candidate refinement_1_0, mu=6, gamma=5, sigma=3
 1	breast
 10	brain
 10_brain	brain

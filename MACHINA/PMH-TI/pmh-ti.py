@@ -22,7 +22,11 @@ Strategy:
 import argparse
 from pathlib import Path
 from itertools import combinations
+import sys
+from pathlib import Path
 
+PMH_DIR = Path(__file__).resolve().parents[1] / "PMH"
+sys.path.append(str(PMH_DIR))
 import pmh as pmh_og
 
 MAX_POLYTOMY = 5  

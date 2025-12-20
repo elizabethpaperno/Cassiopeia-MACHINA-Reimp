@@ -292,9 +292,9 @@ From MACHINA directory run:
 
 ```bash
 python visualizations/draw_migration_graph.py \
-  --site-graph PMH/results_pmh_ti/site_graph_pmh_ti.txt \
+  --site-graph PMH-TI/results_pmh_ti/site_graph_pmh_ti.txt \
   --colors data/hoadley_2016/A7.colormap \
-  --output ../figures/A7_breast_site_graph.png \
+  --output PMH-TI/figures/A7_breast_site_graph.png \
   --primary breast
 ```
 
