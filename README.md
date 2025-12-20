@@ -339,6 +339,11 @@ For each run, subdirectories are organized by pattern set, containing results fr
 
 ---
 
+### `PMH-TR/scripts/`
+
+Includes dedicated visualization script for PMH-TR `draw_pmh_tr_site_graphs.py`.
+
+---
 ## PMH-TR Example Runs
 
 ### Run PMH-TR
@@ -354,12 +359,17 @@ python pmh_tr.py \
 ```
 
 ### Now Get Associated Visualization
+cd to MACHINA directory:
 
-From the root directory, run the dedicated PMH-TR visualization script:
-
-```bash
-python MACHINA/PMH-TR/pmh_tr_analysis/scripts/draw_pmh_tr_site_graphs.py \
-  --results-dir MACHINA/PMH-TR/pmh_tr_analysis/results
+```
+cd ../
 ```
 
-This will generate PNG visualizations for all site graphs in the results directory, saving them to `site_graphs_opt/` subdirectories within each pattern set folder.
+From MACHINA directory run the dedicated PMH-TR visualization script:
+
+```bash
+python PMH-TR/pmh_tr_analysis/scripts/draw_pmh_tr_site_graphs.py \
+  --results-dir PMH-TR/pmh_tr_analysis/results
+```
+
+This will generate PNG visualizations for all site graphs in the results directory, saving them to `site_graphs_opt/` subdirectories within each pattern set folder. 
