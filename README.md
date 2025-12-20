@@ -28,6 +28,11 @@ cd Cassiopeia-MACHINA-Reimp
 pip install -r requirements.txt
 ```
 
+Graphiz must also be installed on the system
+```
+brew install Graphviz
+```
+
 ## Cassiopeia
 
 This repository contains code and data for running **Greedy, ILP, Hybrid** algorithms and visualizing cell lineage trees.
