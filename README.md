@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 Graphiz must also be installed on the system
 ```
-brew install Graphviz
+brew install graphviz
 ```
 
 ## Cassiopeia
