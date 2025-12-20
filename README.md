@@ -49,10 +49,10 @@ Contains main script for running Cassiopeia-Greedy
 
 ### Input and Running the Algorithm
 
-The command takes in an input tab-delimited file with index=cell and column state (we'll refer to this input as input.txt, make sure it is in the Greedy folder). Running the following command executes the greedy algorithm on input.txt and prints the result to the terminal as well as storing it in tree.newick.
+The command takes in an input tab-delimited file with index=cell and column state (we'll refer to this input as input.txt, make sure it is in the Greedy folder). Running the following command executes the greedy algorithm on input.txt and prints the result to the terminal as well as storing it in tree.newick. Run this command from the main project root. Note that sub1_train_XXX.txt is the data you want to run on (replace XXX with the index of the file you are trying to run on).
 
 ```
-python cassiopeia_greedy.py input.txt
+python Cassiopeia/Greedy/cassiopeia_greedy.py Cassiopeia/data/train/sub1_train_XXX.txt
 
 ```
 
@@ -68,7 +68,7 @@ This visualizes the tree that is outputted by the Cassiopeia-Greedy algorithm wi
 Contains the main script for running Cassippeia-ILP code as well as other helper scripts to reconstruct lineage states with globally optimal parsimony.
 ### Running Cassiopeia-ILP:
 The ILP solver takes in a tab-delimited file with each row corresponding to a cell and the mutation state string for barcode sites.  
-Usage (where XXX corresopnds to the dataset you want to run on).
+Usage (where XXX corresopnds to the dataset you want to run on). Run this from the main project root.
 ```
 python -m Cassiopeia.ILP.cassiopeia_ilp \
   Cassiopeia/data/train/sub1_train_XXX.txt \
