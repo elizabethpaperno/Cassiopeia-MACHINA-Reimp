@@ -143,10 +143,10 @@ Main script for running Parsimonious Migration History.
 
 The script:
 
-- reads a clone tree and leaf labeling,
-- runs PMH under a specified pattern set,
-- outputs all maximum parsimony labelings and optimal solutions,
-- constructs a migration graphs.
+- reads a clone tree and leaf labeling
+- runs PMH under a specified pattern set
+- outputs all maximum parsimony labelings and optimal solutions
+- constructs a migration graphs
 
 #### Inputs
 
@@ -161,7 +161,7 @@ The script:
 
 Automatically created directory where all PMH outputs are stored.
 
-For each run, a subdirectory with name {primary site}_{pattern}_{tree/labeling file name} is created containing:
+For each run, a subdirectory with name {primary site}\_{pattern}\_{input file name} is created containing:
 
 - `summary.txt`
 - `labelings_all_mp.txt`

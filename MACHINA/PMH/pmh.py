@@ -1,11 +1,7 @@
 """
 pmh.py
 
-Restricted and unrestricted Parsimonious Migration History (PMH), following the
-MACHINA supplement:
-
-- Section B.3.1  Unconstrained PMH via Sankoff (equation (11), Algorithms 1-3)
-- Section B.3.2  Constrained PMH via integer linear programming (equations (12-32))
+Restricted and unrestricted Parsimonious Migration History (PMH)
 
 Pattern sets P:
     {PS}, {PS,S}, {PS,S,M}, {PS,S,M,R}
@@ -28,7 +24,7 @@ Leaf labeling file: leaf to anatomical site labels, one per line:
 
 Output layout (all under results/):
 
-    results/PRIMARY_PATTERNSET/
+    results/PRIMARY_PATTERNSET_INPUTNAME/
         summary.txt
         labelings_all_mp.txt       # all maximum parsimony labelings with statistics
         labelings_opt.txt          # only (migration, comigration) optimal labelings
