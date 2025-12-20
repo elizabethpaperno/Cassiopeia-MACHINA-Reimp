@@ -114,3 +114,59 @@ python visualizations/draw_tree.py \
 ---
 
 ## PMH-TR
+### `PMH/pmh_tr.py`
+Main script for running Parsimonious Migration History with Tree Resolution (PMH-TR).
+
+This extension of PMH handles **unresolved clone trees** (trees with polytomies, i.e., nodes with more than two children). Rather than explicitly enumerating all binary refinements of the tree, PMH-TR integrates tree resolution directly into the ILP formulation. Internal nodes are labeled with anatomical sites through the ILP optimization, which implicitly finds the optimal tree structure that minimizes migrations.
+
+#### Key Innovation
+Polytomy resolution is integrated directly into the ILP formulation rather than as a pre-processing step, allowing simultaneous optimization of:
+- Vertex labeling (anatomical site assignments)
+- Tree structure (which binary resolution to use)
+- Migration graph topology
+
+#### Inputs
+- `--tree`: path to a `.tree` file (may contain polytomies)
+- `--labels`: path to a `.labeling` file
+- `--primary`: primary anatomical site
+- `--pattern-set`: one of `PS`, `PS,S`, `PS,S,M`, `PS,S,M,R`
+- `-o` / `--output`: output directory (default: `patient1_tr/`)
+
+#### Outputs
+For each pattern set, PMH-TR creates a subdirectory containing:
+- `summary.txt`: metadata and optimal statistics (mu, phi, sigma)
+- `labelings_opt.txt`: optimal vertex labelings
+- `site_graphs_opt/`: optimal migration (site) graphs
+
+A top-level `result.txt` file provides a summary of all pattern sets in tabular format.
+
+---
+
+### `PMH/results_pmh_ti/`
+Automatically created directory where all PMH-TR outputs are stored.
+
+For each run, subdirectories are organized by pattern set, containing results from that optimization.
+
+---
+
+## PMH-TR Example Runs
+
+### Run PMH-TR
+From PMH directory:
+```bash
+python pmh_tr.py \
+  --tree ../data/mcpherson_2016/patient1.tree \
+  --labels ../data/mcpherson_2016/patient1.labeling \
+  --primary ROv \
+  --pattern-set "PS,S"
+```
+
+### Get Associated Visualization
+From MACHINA directory:
+```bash
+python visualizations/draw_tree.py \
+  --site-graph PMH/results_pmh_ti/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.txt \
+  --colors data/mcpherson_2016/patient1.colormap \
+  --output PMH/results_pmh_ti/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.png \
+  --primary ROv
+```
