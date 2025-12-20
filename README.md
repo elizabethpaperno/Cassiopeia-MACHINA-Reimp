@@ -111,6 +111,61 @@ python visualizations/draw_tree.py \
 
 ## PMH-TI
 
+### `PMH/pmh-ti.py`
+Main script for running Parsimonious Migration History with Tree Inference.
+
+The script:
+- reads an unresolved clone tree and leaf labeling,
+- identifies polytomies in the clone tree, 
+- generates candidate binary refinements for resolved polytomies,
+- runs PMH on each candidate tree under a specified pattern set,
+- selects the candidate and vertex labeling that minimize the objective,
+- constructs the migration site graph and frequency matrix for the optimal solution.
+
+#### Inputs
+- `--tree`: path to a `.tree` file
+- `--labels`: path to a `.labeling` file
+- `--primary`: primary anatomical site
+- `--pattern-set`: one of `PS`, `PS,S`, `PS,S,M`, `PS,S,M,R`
+- `--outdir`: output directory
+
 ---
+
+### `PMH/results_pmh_ti/`
+Automatically created directory where all PMH-TI outputs are stored.
+
+Each run produces the following files:
+- `summary_pmh_ti.txt`
+- `labelings_pmh_ti.txt`
+- `site_graphs_pmh_ti.txt/`
+- `frequency_matrix_F.txt/`
+
+---
+
+## PMH-TI Example Runs
+
+### Run PMH-TI
+From PMH directory:
+```bash
+python pmh-ti.py \
+  --tree ../data/hoadley_2016/A7.tree \
+  --labels ../data/hoadley_2016/A7.labeling \
+  --primary breast \
+  --pattern-set PS,S,M,R
+```
+
+### Now Get Associated Visualization
+cd to MACHINA directory: 
+```
+cd ../
+```
+From MACHINA directory run:
+```bash 
+python visualizations/draw_tree.py \
+  --site-graph PMH/results_pmh_ti/site_graph_pmh_ti.txt \
+  --colors data/hoadley_2016/A7.colormap \
+  --output ../figures/A7_breast_site_graph.png \
+  --primary breast
+```
 
 ## PMH-TR
