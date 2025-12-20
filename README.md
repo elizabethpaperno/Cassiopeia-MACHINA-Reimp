@@ -63,6 +63,14 @@ python Cassiopeia/Greedy/cassiopeia_greedy.py Cassiopeia/data/train/sub1_train_X
 
 ### Visualizing Output Tree
 
+Run the following in order to move back into the Cassiopeia directory.
+
+```
+cd ..
+```
+
+Move tree.newick to the "visualizations" folder. Then run
+
 ```
 python reconstruct.py tree.newick
 ```
@@ -70,22 +78,26 @@ python reconstruct.py tree.newick
 This visualizes the tree that is outputted by the Cassiopeia-Greedy algorithm with the input of input.txt.
 
 ### `ILP/`
+
 Contains the main script for running Cassippeia-ILP code as well as other helper scripts to reconstruct lineage states with globally optimal parsimony.
+
 ### Running Cassiopeia-ILP:
+
 The ILP solver takes in a tab-delimited file with each row corresponding to a cell and the mutation state string for barcode sites.  
 Usage (where XXX corresopnds to the dataset you want to run on). Run this from the main project root.
+
 ```
 python -m Cassiopeia.ILP.cassiopeia_ilp \
   Cassiopeia/data/train/sub1_train_XXX.txt \
   -o Cassiopeia/experiment_results/general_full_dataset/ilp/ilp_sub1_train_XXX.nwk
 ```
+
 Optional flags:
+
 - (--debug): will write additional diagnostics to a debug.txt file for more information on the script run
 - (--time): prints the total runtime.
 
 The ILP script outputs and stores a lineage tree in .nwk Newick format.
-
-
 
 ### `Hybrid/`
 
@@ -96,7 +108,7 @@ Contains main script for running Cassiopeia-Hybrid.
 The command takes in an input tab-delimited file with index=cell and column state. Use `-t` to indicate the ILP threshold, which is the maximum group size to switch from greedy to ILP. Output will be saved at `-o`. Use `--debug` to get print output for greedy splits and ILP group sizes.
 
 ```
-python -m Cassiopeia.Hybrid.cassiopeia_hybrid cell_state.txt -t 10 --debug -o output.nwk
+python -m Cassiopeia.Hybrid.cassiopeia_hybrid Cassiopeia/data/train/sub1_train_XXX.txt -t 10 --debug -o output.nwk
 ```
 
 ### Calculating parsimony cost
