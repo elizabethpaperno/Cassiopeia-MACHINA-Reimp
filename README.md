@@ -49,10 +49,10 @@ Contains main script for running Cassiopeia-Greedy
 
 ### Input and Running the Algorithm
 
-The command takes in an input tab-delimited file with index=cell and column state (we'll refer to this input as input.txt, make sure it is in the Greedy folder). Running the following command executes the greedy algorithm on input.txt and prints the result to the terminal as well as storing it in tree.newick. Run this command from within the Greedy folder and make sure input.txt i s the path to the input fdata file you want to run Cassiopeia on.
+The command takes in an input tab-delimited file with index=cell and column state (we'll refer to this input as input.txt, make sure it is in the Greedy folder). Running the following command executes the greedy algorithm on input.txt and prints the result to the terminal as well as storing it in tree.newick. Run this command from the main project root. Note that sub1_train_XXX.txt is the data you want to run on (replace XXX with the index of the file you are trying to run on).
 
 ```
-python cassiopeia_greedy.py input.txt
+python Cassiopeia/Greedy/cassiopeia_greedy.py Cassiopeia/data/train/sub1_train_XXX.txt
 
 ```
 
