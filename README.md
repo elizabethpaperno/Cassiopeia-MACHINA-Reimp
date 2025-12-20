@@ -63,13 +63,19 @@ python Cassiopeia/Greedy/cassiopeia_greedy.py Cassiopeia/data/train/sub1_train_X
 
 ### Visualizing Output Tree
 
+Move tree.newick to the "visualizations" folder by running
+
+```
+mv tree.newick visualizations/
+```
+
 Run the following in order to move back into the Cassiopeia directory.
 
 ```
 cd ..
 ```
 
-Move tree.newick to the "visualizations" folder. Then run
+Run the following to create the visualization.
 
 ```
 python reconstruct.py tree.newick
