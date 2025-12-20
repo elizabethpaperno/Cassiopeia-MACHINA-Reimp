@@ -20,7 +20,35 @@ cd Cassiopeia-MACHINA-Reimp
 pip install -r requirements.txt
 ```
 
-## Cassiopea 
+## Cassiopeia 
+This repository contains code and data for running **Greedy, ILP, Hybrid** algorithms and visualizing cell lineage trees.
+
+### `data/`
+Contains data from the Allen Institute DREAM Challenge, which features publicly available lineage tracing datasets.
+
+Each row represents:
+- cell: a unique cell identifier
+- state: sequence of integers representing mutations at different sites
+### `Greedy/`
+
+### `ILP/`
+
+### `Hybrid/`
+Contains main script for running Cassiopeia-Hybrid.
+
+### Newick Tree
+The command takes in an input tab-delimited file with index=cell and column state. Use `-t` to indicate the ILP threshold, which is the maximum group size to switch from greedy to ILP. Output will be saved at `-o`. Use `--debug` to get print output for greedy splits and ILP group sizes.
+```
+python -m Cassiopeia.Hybrid.cassiopeia_hybrid cell_state.txt -t 10 --debug -o output.nwk
+```
+
+### Calculating parsimony cost
+```
+python -m Cassiopeia.compute_parsimony tree.nwk
+```
+
+### `visualizations/`
+Contains script for visualizing Newick Tree.
 
 ## MACHINA
 
