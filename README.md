@@ -68,7 +68,7 @@ This visualizes the tree that is outputted by the Cassiopeia-Greedy algorithm wi
 Contains the main script for running Cassippeia-ILP code as well as other helper scripts to reconstruct lineage states with globally optimal parsimony.
 ### Running Cassiopeia-ILP:
 The ILP solver takes in a tab-delimited file with each row corresponding to a cell and the mutation state string for barcode sites.  
-Usage:
+Usage (where XXX corresopnds to the dataset you want to run on).
 ```
 python -m Cassiopeia.ILP.cassiopeia_ilp \
   Cassiopeia/data/train/sub1_train_XXX.txt \
