@@ -39,6 +39,41 @@ def build_clonetree_from_edges(edges):
     """Construct pmh.CloneTree from an edges list of labels."""
     return pmh_og.CloneTree(edges)
 
+def compute_site_support(leaf_labeling):
+    """
+    Count how many leaves map to each anatomical site.
+
+    Returns:
+        dict: site_label -> count
+    """
+    support = {}
+    for site in leaf_labeling.values():
+        support[site] = support.get(site, 0) + 1
+    return support
+
+
+def compute_support_penalty(site_graph_edges, site_support):
+    """
+    Penalize biologically implausible migrations where a site
+    with lower support seeds a site with higher support.
+
+    Params:
+        site_graph_edges: list of (src_site, dst_site, weight)
+        site_support: dict mapping site -> number of leaves
+
+    Returns:
+        int penalty score (lower is better)
+    """
+    penalty = 0
+    for src, dst, w in site_graph_edges:
+        src_support = site_support.get(src, 0)
+        dst_support = site_support.get(dst, 0)
+
+        if src_support < dst_support:
+            penalty += w
+
+    return penalty
+
 def generate_binary_refinements_for_node(parent_label, child_labels, internal_label_prefix="X"):
     """
     Given:
@@ -142,9 +177,24 @@ def evaluate_candidate_tree(edges, leaf_labeling_map, sites, pattern_set):
     labelings, mu_star, phi_star, sigma_star = pmh_og.solve_pmh_with_pattern_set(tree, sites, leaf_labeling_map, pattern_set)
     return tree, labelings, mu_star, phi_star, sigma_star
 
+def compute_hub_penalty(site_graph, primary_site):
+    """
+    Penalize non-primary sites that act as major migration hubs.
+    """
+    out_degree = {}
+    for (s, t), w in site_graph.items():
+        out_degree[s] = out_degree.get(s, 0) + w
+
+    penalty = 0
+    for site, deg in out_degree.items():
+        if site != primary_site and deg >= 2:
+            penalty += deg
+    return penalty
+
 def pmhti_main(tree_path, labels_path, primary_label, pattern_set, outdir):
     tree_orig = pmh_og.read_clone_tree(tree_path)
     leaf_labeling_map = pmh_og.read_leaf_labeling(labels_path)
+    site_support = compute_site_support(leaf_labeling_map)
     all_sites = set(leaf_labeling_map.values())
     sites = pmh_og.SiteIndex(all_sites, primary_label)
 
@@ -181,14 +231,37 @@ def pmhti_main(tree_path, labels_path, primary_label, pattern_set, outdir):
             print(f"Candidate {name} raised an error during PMH solving: {e}")
             continue
         for lab in labelings:
+            """
             results.append((name, tree_cand, lab, mu_star, phi_star, sigma_star))
             key = (mu_star, phi_star)
             if best is None or key < (best[0], best[1]):
                 best = (mu_star, phi_star, name, tree_cand, lab, sigma_star)
+            """
+            sg = pmh_og.site_graph_from_labeling(tree_cand, lab)
+            hub_penalty = compute_hub_penalty(sg, primary_label)
+
+            results.append(
+                (name, tree_cand, lab, mu_star, phi_star, sigma_star, hub_penalty)
+            )
+
+            key = (mu_star, phi_star, sigma_star, hub_penalty)
+
+            if best is None or key < (best[0], best[1], best[5], best[6]):
+                best = (
+                    mu_star,
+                    phi_star,
+                    name,
+                    tree_cand,
+                    lab,
+                    sigma_star,
+                    hub_penalty,
+                )
+
     if best is None:
         raise RuntimeError("No feasible solution found for any candidate tree.")
 
-    mu_opt, phi_opt, cand_name, best_tree, best_lab, sigma_opt = best
+    #mu_opt, phi_opt, cand_name, best_tree, best_lab, sigma_opt = best
+    mu_opt, phi_opt, cand_name, best_tree, best_lab, sigma_opt, hub_penalty_opt = best
     print(f"Best candidate: {cand_name} with mu={mu_opt}, phi={phi_opt}, sigma={sigma_opt}")
 
     F = build_frequency_matrix(best_tree, best_lab, sites)

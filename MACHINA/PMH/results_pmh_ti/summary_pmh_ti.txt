@@ -1,8 +1,8 @@
-chosen_candidate	original
+chosen_candidate	refinement_1_0
 pattern_set	PS,S,M,R
-primary	LOv
-num_sites	7
-num_vertices	19
-mu_opt	12
-phi_opt	6
-sigma_opt	1
+primary	breast
+num_sites	6
+num_vertices	21
+mu_opt	6
+phi_opt	5
+sigma_opt	3
