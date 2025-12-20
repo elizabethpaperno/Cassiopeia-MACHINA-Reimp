@@ -1,0 +1,7 @@
+LOv	ApC	2
+LOv	LFTB	2
+LOv	Om	2
+LOv	RFTA	1
+LOv	ROv	1
+LOv	SBwl	3
+ROv	LOv	2

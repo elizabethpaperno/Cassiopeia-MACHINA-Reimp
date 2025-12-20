@@ -1,0 +1,9 @@
+LOv	Adnx	3
+LOv	CDSB	4
+LOv	ClnE	3
+LOv	LFTC	4
+LOv	Om	4
+LOv	RFTA	3
+LOv	ROv	4
+CDSB	ClnE	1
+CDSB	Om	1

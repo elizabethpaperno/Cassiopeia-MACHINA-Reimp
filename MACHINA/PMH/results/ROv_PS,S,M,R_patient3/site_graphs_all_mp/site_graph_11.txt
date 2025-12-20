@@ -1,0 +1,12 @@
+ROv	Adnx	3
+ROv	CDSB	3
+ROv	ClnE	4
+ROv	LFTC	3
+ROv	LOv	3
+ROv	Om	3
+ROv	RFTA	3
+Adnx	LFTC	1
+Adnx	LOv	1
+Adnx	Om	1
+ClnE	CDSB	1
+ClnE	Om	1

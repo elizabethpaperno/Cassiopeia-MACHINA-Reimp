@@ -334,7 +334,7 @@ def solve_pmh_ilp_mode(tree, sites, leaf_labeling, mode):
         labeling: Optimal vertex to site index labeling
         objective_value: Value of the ILP objective at optimum
         mu: Migration number of the solution
-        phi: Comigration number of the solution
+        gamma: Comigration number of the solution
         sigma: Seeding site number of the solution
     """
     if pulp is None:
@@ -591,10 +591,10 @@ def solve_pmh_ilp_mode(tree, sites, leaf_labeling, mode):
             )
         labeling[i] = assigned
 
-    mu, phi, sigma = compute_migration_stats(tree, sites, labeling)
+    mu, gamma, sigma = compute_migration_stats(tree, sites, labeling)
     objective_value = pulp.value(model.objective)
 
-    return labeling, objective_value, mu, phi, sigma
+    return labeling, objective_value, mu, gamma, sigma
 
 
 def compute_migration_stats(tree, sites, labeling):
@@ -608,7 +608,7 @@ def compute_migration_stats(tree, sites, labeling):
 
     Returns
         mu: Number of migration edges in the tree
-        phi: Comigration number over all ordered site pairs
+        gamma: Comigration number over all ordered site pairs
         sigma: Number of seeding sites with outgoing migrations
     """
     n = len(tree.vertices)
@@ -639,8 +639,8 @@ def compute_migration_stats(tree, sites, labeling):
         seeding_sites.add(su)
     sigma = len(seeding_sites)
 
-    # comigration number phi
-    phi = 0
+    # comigration number gamma
+    gamma = 0
     children = tree.children
 
     for pair, edges in edges_by_pair.items():
@@ -660,9 +660,9 @@ def compute_migration_stats(tree, sites, labeling):
                 extra = 1 if (u, v) in edge_set else 0
                 stack.append((v, count_so_far + extra))
 
-        phi += max_on_path
+        gamma += max_on_path
 
-    return mu, phi, sigma
+    return mu, gamma, sigma
 
 # Constructs migration graph from a labeling
 def site_graph_from_labeling(tree, labeling):
@@ -731,8 +731,8 @@ def solve_pmh_with_pattern_set(tree, sites, leaf_labeling, pattern_set_str):
     Returns
         labelings: List of vertex labelings consistent with the pattern set
         mu_star: Minimum migration number over the pattern set
-        phi_star: Minimum comigration number at mu star
-        sigma_star: Minimum seeding site number at mu and phi star
+        gamma_star: Minimum comigration number at mu star
+        sigma_star: Minimum seeding site number at mu and gamma star
     """
     normalized = pattern_set_str.replace(" ", "")
     valid_sets = {"PS", "PS,S", "PS,S,M", "PS,S,M,R", "S,M,R"}
@@ -747,72 +747,72 @@ def solve_pmh_with_pattern_set(tree, sites, leaf_labeling, pattern_set_str):
         all_labelings, mu_star, M, Delta = sankoff(tree, sites, leaf_labeling)
 
         # find optimal among all maximum parsimony labelings
-        best_phi = None
+        best_gamma = None
         best_sigma = None
         for lab in all_labelings:
-            mu, phi, sigma = compute_migration_stats(tree, sites, lab)
+            mu, gamma, sigma = compute_migration_stats(tree, sites, lab)
             if mu != mu_star:
                 raise RuntimeError(
                     "Sankoff enumeration error: labeling has mu = {} "
                     "but mu_star = {}".format(mu, mu_star)
                 )
             if (
-                best_phi is None
-                or phi < best_phi
-                or (phi == best_phi and sigma < best_sigma)
+                best_gamma is None
+                or gamma < best_gamma
+                or (gamma == best_gamma and sigma < best_sigma)
             ):
-                best_phi = phi
+                best_gamma = gamma
                 best_sigma = sigma
 
         all_labelings = dedup_labelings(all_labelings)
-        return all_labelings, mu_star, best_phi, best_sigma
+        return all_labelings, mu_star, best_gamma, best_sigma
 
     # restricted pattern sets -> use ILP modes
     if normalized == "PS":
-        lab, obj, mu, phi, sigma = solve_pmh_ilp_mode(
+        lab, obj, mu, gamma, sigma = solve_pmh_ilp_mode(
             tree, sites, leaf_labeling, mode="PS"
         )
         labelings = dedup_labelings([lab])
-        return labelings, mu, phi, sigma
+        return labelings, mu, gamma, sigma
 
     if normalized == "PS,S":
-        lab_PS, obj_PS, mu_PS, phi_PS, sigma_PS = solve_pmh_ilp_mode(
+        lab_PS, obj_PS, mu_PS, gamma_PS, sigma_PS = solve_pmh_ilp_mode(
             tree, sites, leaf_labeling, mode="PS"
         )
-        lab_S, obj_S, mu_S, phi_S, sigma_S = solve_pmh_ilp_mode(
+        lab_S, obj_S, mu_S, gamma_S, sigma_S = solve_pmh_ilp_mode(
             tree, sites, leaf_labeling, mode="S"
         )
 
-        key_PS = (mu_PS, phi_PS, sigma_PS)
-        key_S = (mu_S, phi_S, sigma_S)
+        key_PS = (mu_PS, gamma_PS, sigma_PS)
+        key_S = (mu_S, gamma_S, sigma_S)
 
         if key_PS < key_S:
             labelings = [lab_PS]
-            mu_star, phi_star, sigma_star = key_PS
+            mu_star, gamma_star, sigma_star = key_PS
         elif key_S < key_PS:
             labelings = [lab_S]
-            mu_star, phi_star, sigma_star = key_S
+            mu_star, gamma_star, sigma_star = key_S
         else:
             labelings = [lab_PS, lab_S]
-            mu_star, phi_star, sigma_star = key_PS
+            mu_star, gamma_star, sigma_star = key_PS
 
         labelings = dedup_labelings(labelings)
-        return labelings, mu_star, phi_star, sigma_star
+        return labelings, mu_star, gamma_star, sigma_star
 
     if normalized == "PS,S,M":
-        lab_PS, obj_PS, mu_PS, phi_PS, sigma_PS = solve_pmh_ilp_mode(
+        lab_PS, obj_PS, mu_PS, gamma_PS, sigma_PS = solve_pmh_ilp_mode(
             tree, sites, leaf_labeling, mode="PS"
         )
-        lab_S, obj_S, mu_S, phi_S, sigma_S = solve_pmh_ilp_mode(
+        lab_S, obj_S, mu_S, gamma_S, sigma_S = solve_pmh_ilp_mode(
             tree, sites, leaf_labeling, mode="S"
         )
-        lab_M, obj_M, mu_M, phi_M, sigma_M = solve_pmh_ilp_mode(
+        lab_M, obj_M, mu_M, gamma_M, sigma_M = solve_pmh_ilp_mode(
             tree, sites, leaf_labeling, mode="M"
         )
 
-        key_PS = (mu_PS, phi_PS, sigma_PS)
-        key_S = (mu_S, phi_S, sigma_S)
-        key_M = (mu_M, phi_M, sigma_M)
+        key_PS = (mu_PS, gamma_PS, sigma_PS)
+        key_S = (mu_S, gamma_S, sigma_S)
+        key_M = (mu_M, gamma_M, sigma_M)
 
         best_key = min(key_PS, key_S, key_M)
 
@@ -825,8 +825,8 @@ def solve_pmh_with_pattern_set(tree, sites, leaf_labeling, pattern_set_str):
             labelings.append(lab_M)
 
         labelings = dedup_labelings(labelings)
-        mu_star, phi_star, sigma_star = best_key
-        return labelings, mu_star, phi_star, sigma_star
+        mu_star, gamma_star, sigma_star = best_key
+        return labelings, mu_star, gamma_star, sigma_star
 
 def main():
     parser = argparse.ArgumentParser(
@@ -856,7 +856,7 @@ def main():
     sites = SiteIndex(all_sites, primary_site_label=args.primary)
 
     # Solve PMH for the chosen pattern set
-    labelings, mu_star, phi_star, sigma_star = solve_pmh_with_pattern_set(
+    labelings, mu_star, gamma_star, sigma_star = solve_pmh_with_pattern_set(
         tree, sites, leaf_labeling, args.pattern_set
     )
 
@@ -866,33 +866,33 @@ def main():
     # Compute statistics for each labeling
     labeling_stats = []
     for idx, lab in enumerate(labelings):
-        mu, phi, sigma = compute_migration_stats(tree, sites, lab)
-        labeling_stats.append((idx, lab, mu, phi, sigma))
+        mu, gamma, sigma = compute_migration_stats(tree, sites, lab)
+        labeling_stats.append((idx, lab, mu, gamma, sigma))
 
     num_mp = len(labelings)
 
     # Find optimal labelings from max parsimony labels
     if is_unrestricted:
-        phi_opt = None
+        gamma_opt = None
         sigma_opt = None
-        for _, _, mu, phi, sigma in labeling_stats:
+        for _, _, mu, gamma, sigma in labeling_stats:
             if mu != mu_star:
                 raise RuntimeError(
                     "Sankoff enumeration error: labeling has mu = {} "
                     "but mu_star = {}".format(mu, mu_star)
                 )
             if (
-                phi_opt is None
-                or phi < phi_opt
-                or (phi == phi_opt and sigma < sigma_opt)
+                gamma_opt is None
+                or gamma < gamma_opt
+                or (gamma == gamma_opt and sigma < sigma_opt)
             ):
-                phi_opt = phi
+                gamma_opt = gamma
                 sigma_opt = sigma
-        phi_star, sigma_star = phi_opt, sigma_opt
+        gamma_star, sigma_star = gamma_opt, sigma_opt
         opt_labelings = [
-            (idx, lab, mu, phi, sigma)
-            for (idx, lab, mu, phi, sigma) in labeling_stats
-            if phi == phi_star and sigma == sigma_star
+            (idx, lab, mu, gamma, sigma)
+            for (idx, lab, mu, gamma, sigma) in labeling_stats
+            if gamma == gamma_star and sigma == sigma_star
         ]
         num_opt = len(opt_labelings)
     else:
@@ -913,7 +913,7 @@ def main():
         f.write("num_sites\t{}\n".format(sites.m))
         f.write("num_vertices\t{}\n".format(len(tree.vertices)))
         f.write("mu_opt\t{}\n".format(mu_star))
-        f.write("phi_opt\t{}\n".format(phi_star))
+        f.write("gamma_opt\t{}\n".format(gamma_star))
         f.write("sigma_opt\t{}\n".format(sigma_star))
         f.write("n_mp_labelings\t{}\n".format(num_mp))
         f.write("n_opt_labelings\t{}\n".format(num_opt))
@@ -921,10 +921,10 @@ def main():
     # Maximum parsimony labelings
     all_mp_path = pattern_dir / "labelings_all_mp.txt"
     with open(all_mp_path, "w") as f:
-        for idx, lab, mu, phi, sigma in labeling_stats:
+        for idx, lab, mu, gamma, sigma in labeling_stats:
             f.write(
-                "# labeling {}\tmu={}\tphi={}\tsigma={}\n".format(
-                    idx, mu, phi, sigma
+                "# labeling {}\tmu={}\tgamma={}\tsigma={}\n".format(
+                    idx, mu, gamma, sigma
                 )
             )
             for i in sorted(lab.keys(), key=lambda x: tree.vertices[x]):
@@ -936,10 +936,10 @@ def main():
     # Optimal labeling output file
     opt_path = pattern_dir / "labelings_opt.txt"
     with open(opt_path, "w") as f:
-        for idx, lab, mu, phi, sigma in opt_labelings:
+        for idx, lab, mu, gamma, sigma in opt_labelings:
             f.write(
-                "# labeling {}\tmu={}\tphi={}\tsigma={}\n".format(
-                    idx, mu, phi, sigma
+                "# labeling {}\tmu={}\tgamma={}\tsigma={}\n".format(
+                    idx, mu, gamma, sigma
                 )
             )
             for i in sorted(lab.keys(), key=lambda x: tree.vertices[x]):
@@ -951,7 +951,7 @@ def main():
     # Maximum parsimony graph output file
     sg_all_dir = pattern_dir / "site_graphs_all_mp"
     sg_all_dir.mkdir(exist_ok=True)
-    for idx, lab, mu, phi, sigma in labeling_stats:
+    for idx, lab, mu, gamma, sigma in labeling_stats:
         edges = site_graph_from_labeling(tree, lab)
         sg_path = sg_all_dir / "site_graph_{}.txt".format(idx)
         write_site_graph(sg_path, sites, edges)
@@ -959,7 +959,7 @@ def main():
     # Opt site graph output file
     sg_opt_dir = pattern_dir / "site_graphs_opt"
     sg_opt_dir.mkdir(exist_ok=True)
-    for idx, lab, mu, phi, sigma in opt_labelings:
+    for idx, lab, mu, gamma, sigma in opt_labelings:
         edges = site_graph_from_labeling(tree, lab)
         sg_path = sg_opt_dir / "site_graph_{}.txt".format(idx)
         write_site_graph(sg_path, sites, edges)
@@ -967,8 +967,8 @@ def main():
     # Printed to terminal
     print("P = {}, primary = {}".format(normalized, args.primary))
     print(
-        "mu_star = {}, phi_opt = {}, sigma_opt = {}".format(
-            mu_star, phi_star, sigma_star
+        "mu_star = {}, gamma_opt = {}, sigma_opt = {}".format(
+            mu_star, gamma_star, sigma_star
         )
     )
     print(
