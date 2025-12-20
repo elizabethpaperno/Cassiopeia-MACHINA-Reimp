@@ -28,7 +28,7 @@ This repository contains code and data for running **PMH, PMH-TI, PMH-TR** analy
 
 ### `data/`
 Contains subdirectories named after the study or paper the data originates from (e.g. `mcpherson_2016`).  
-Each subdirectory typically includes:
+Each subdirectory includes:
 - `.tree` files: clone tree edge lists (`parent child` per line)
 - `.labeling` files: mappings from leaf nodes to anatomical sites (`leaf site` per line)
 - `.colormap` files: mappings from anatomical sites to colors (used for visualization)
@@ -39,13 +39,13 @@ Each subdirectory typically includes:
 Contains scripts for visualizing PMH, PMH-TI, and PMH-TR outputs.
 
 - `draw_tree.py`:  
-  Given:
-  - a migration (site) graph file (e.g. produced by `pmh.py`) in the format:
+  Inputs:
+  - `--site_graph`: a migration (site) graph file (e.g. produced by `pmh.py`) in the format:
     ```
     src_site  dst_site  weight
     ```
-  - a colormap file (`site color`)
-  
+  - `--colors`: a colormap file (`site color`)
+  - `--output`: file where visualization should be saved
   this script outputs a Graphviz visualization of the inferred migration (parsimony) history.
 
 ---
@@ -72,7 +72,7 @@ The script:
 ### `PMH/results/`
 Automatically created directory where all PMH outputs are stored.
 
-For each run, a subdirectory is created containing:
+For each run, a subdirectory with name {primary site}_{pattern}_{tree/labeling file name} is created containing:
 - `summary.txt`
 - `labelings_all_mp.txt`
 - `labelings_opt.txt`
@@ -81,7 +81,7 @@ For each run, a subdirectory is created containing:
 
 ---
 
-## Example Runs
+## PMH Example Runs
 
 ### Run PMH
 From PMH directory:
@@ -91,12 +91,26 @@ python pmh.py \
   --labels ../data/mcpherson_2016/patient1.labeling \
   --primary ROv \
   --pattern-set "PS,S"
+```
 
 ### Now Get Associated Visualization
-From 
+cd to MACHINA directory: 
+```
+cd ../
+```
+From MACHINA directory run:
 ```bash 
 python visualizations/draw_tree.py \
   --site-graph PMH/results/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.txt \
   --colors data/mcpherson_2016/patient1.colormap\
   --output PMH/results/ROv_PS,S_patient1/site_graphs_opt/site_graph_0.png \
   --primary ROv
+```
+
+---
+
+## PMH-TI
+
+---
+
+## PMH-TR
