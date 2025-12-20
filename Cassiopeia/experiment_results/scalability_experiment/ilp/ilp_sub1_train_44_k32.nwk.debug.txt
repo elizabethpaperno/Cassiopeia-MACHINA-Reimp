@@ -1,0 +1,16 @@
+input_file: /Users/leaduesterwald/Downloads/CS4775/Cassiopeia-MACHINA-Reimp/Cassiopeia/experiment_results/scalability_experiment/data/sub1_train_44_k32.txt
+missing: -1, unmutated: 0
+max_imputations_per_terminal: 256
+include_all_pair_edges: False
+
+num_cells: 32
+num_terminals (after imputation): 14
+num_nodes (potential graph): 3586
+num_edges (potential graph): 17817
+
+ILP status: Optimal
+ILP objective: 49.0
+selected_edges: 49
+num_cell_leaves_exported: 32
+
+max imputed terminals for any cell: 1

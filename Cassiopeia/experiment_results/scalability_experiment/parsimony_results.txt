@@ -1,0 +1,22 @@
+==============================
+Parsimony results (Scalability: sub1_train_44 k10/k20/k30/k32)
+==============================
+
+--- greedy ---
+greedy_sub1_train_44_k10.nwk	parsimony_cost=8
+greedy_sub1_train_44_k20.nwk	parsimony_cost=21
+greedy_sub1_train_44_k30.nwk	parsimony_cost=47
+greedy_sub1_train_44_k32.nwk	parsimony_cost=50
+
+--- hybrid ---
+hybrid_sub1_train_44_k10.nwk	parsimony_cost=8
+hybrid_sub1_train_44_k20.nwk	parsimony_cost=21
+hybrid_sub1_train_44_k30.nwk	parsimony_cost=47
+hybrid_sub1_train_44_k32.nwk	parsimony_cost=46
+
+--- ilp ---
+ilp_sub1_train_44_k10.nwk	parsimony_cost=8
+ilp_sub1_train_44_k20.nwk	parsimony_cost=19
+ilp_sub1_train_44_k30.nwk	parsimony_cost=41
+ilp_sub1_train_44_k32.nwk	parsimony_cost=44
+

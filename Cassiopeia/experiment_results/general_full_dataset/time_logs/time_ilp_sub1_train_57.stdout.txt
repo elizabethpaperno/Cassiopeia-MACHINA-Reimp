@@ -1,3 +1,0 @@
-Wrote ILP tree to: /Users/leaduesterwald/Downloads/CS4775/Cassiopeia-MACHINA-Reimp/Cassiopeia/results/ilp/ilp_sub1_train_57.nwk
-Wrote ILP tree to: /Users/leaduesterwald/Downloads/CS4775/Cassiopeia-MACHINA-Reimp/Cassiopeia/results/ilp/ilp_sub1_train_57.nwk
-Wrote ILP tree to: /Users/leaduesterwald/Downloads/CS4775/Cassiopeia-MACHINA-Reimp/Cassiopeia/results/ilp/ilp_sub1_train_57.nwk

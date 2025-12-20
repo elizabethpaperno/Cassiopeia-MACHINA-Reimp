@@ -1,0 +1,3 @@
+Loaded 10 cells
+
+output: /Users/leaduesterwald/Downloads/CS4775/Cassiopeia-MACHINA-Reimp/Cassiopeia/experiment_results/scalability_experiment/hybrid/hybrid_sub1_train_44_k10.nwk
