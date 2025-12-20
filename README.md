@@ -111,7 +111,7 @@ python visualizations/draw_tree.py \
 
 ## PMH-TI
 
-### `PMH/pmh-ti.py`
+### `PMH-TI/pmh-ti.py`
 Main script for running Parsimonious Migration History with Tree Inference.
 
 The script:
@@ -131,7 +131,7 @@ The script:
 
 ---
 
-### `PMH/results_pmh_ti/`
+### `PMH-TI/results_pmh_ti/`
 Automatically created directory where all PMH-TI outputs are stored.
 
 Each run produces the following files:
@@ -145,7 +145,7 @@ Each run produces the following files:
 ## PMH-TI Example Runs
 
 ### Run PMH-TI
-From PMH directory:
+From PMH-TI directory:
 ```bash
 python pmh-ti.py \
   --tree ../data/hoadley_2016/A7.tree \
@@ -162,7 +162,7 @@ cd ../
 From MACHINA directory run:
 ```bash 
 python visualizations/draw_tree.py \
-  --site-graph PMH/results_pmh_ti/site_graph_pmh_ti.txt \
+  --site-graph PMH-TI/results_pmh_ti/site_graph_pmh_ti.txt \
   --colors data/hoadley_2016/A7.colormap \
   --output ../figures/A7_breast_site_graph.png \
   --primary breast
