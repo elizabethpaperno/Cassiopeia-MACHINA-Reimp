@@ -355,18 +355,11 @@ python pmh_tr.py \
 
 ### Now Get Associated Visualization
 
-cd to MACHINA directory:
-
-```
-cd ../
-```
-
-From MACHINA directory run:
+From the root directory, run the dedicated PMH-TR visualization script:
 
 ```bash
-python visualizations/draw_migration_graph.py \
-  --site-graph PMH-TR/results/PS,S/site_graphs_opt/site_graph_0.txt \
-  --colors data/gundum_2015/A10.colormap \
-  --output PMH-TR/results/PS,S/site_graphs_opt/site_graph_0.png \
-  --primary prostate
+python MACHINA/PMH-TR/pmh_tr_analysis/scripts/draw_pmh_tr_site_graphs.py \
+  --results-dir MACHINA/PMH-TR/pmh_tr_analysis/results
 ```
+
+This will generate PNG visualizations for all site graphs in the results directory, saving them to `site_graphs_opt/` subdirectories within each pattern set folder.
