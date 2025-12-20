@@ -236,12 +236,12 @@ Main script for running Parsimonious Migration History with Tree Inference.
 
 The script:
 
-- reads an unresolved clone tree and leaf labeling,
-- identifies polytomies in the clone tree,
-- generates candidate binary refinements for resolved polytomies,
-- runs PMH on each candidate tree under a specified pattern set,
-- selects the candidate and vertex labeling that minimize the objective,
-- constructs the migration site graph and frequency matrix for the optimal solution.
+- reads an unresolved clone tree and leaf labeling
+- identifies polytomies in the clone tree
+- generates candidate binary refinements for resolved polytomies
+- runs PMH on each candidate tree under a specified pattern set
+- selects the candidate and vertex labeling that minimize the objective
+- constructs the migration site graph and frequency matrix for the optimal solution
 
 #### Inputs
 
@@ -306,10 +306,10 @@ python visualizations/draw_migration_graph.py \
 
 Main script for running Parsimonious Migration History with Tree Resolution (PMH-TR).
 
-- Loads a clone tree and leaf site labels, fixing the primary site at the root.
-- Resolves polytomies implicitly via vertex site labeling in an ILP-based PMH-TR formulation.
-- Supports multiple migration pattern sets and selects solutions minimizing μ, then φ, then σ.
-- Outputs optimal labelings, migration graphs, and summary results.
+- loads a clone tree and leaf site labels, fixing the primary site at the root
+- resolves polytomies implicitly via vertex site labeling in an ILP-based PMH-TR formulation
+- supports multiple migration pattern sets and selects solutions minimizing μ, then φ, then σ.
+- outputs optimal labelings, migration graphs, and summary results
 
 #### Inputs
 
@@ -347,8 +347,10 @@ From PMH-TR directory:
 
 ```bash
 python pmh_tr.py \
-  --tree ../data/mcpherson_2016/patient1.tree \
-  --labels ../data/mcpherson_2016/patient1.labeling \
-  --primary ROv \
+  --tree ../data/gundum_2015/A10.tree \
+  --labels ../data/gundum_2015/A10.labeling \
+  --primary prostate \
   --pattern-set "PS,S"
 ```
+
+### Now Get Associated Visualization
