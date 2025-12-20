@@ -354,3 +354,19 @@ python pmh_tr.py \
 ```
 
 ### Now Get Associated Visualization
+
+cd to MACHINA directory:
+
+```
+cd ../
+```
+
+From MACHINA directory run:
+
+```bash
+python visualizations/draw_migration_graph.py \
+  --site-graph PMH-TR/results/PS,S/site_graphs_opt/site_graph_0.txt \
+  --colors data/gundum_2015/A10.colormap \
+  --output PMH-TR/results/PS,S/site_graphs_opt/site_graph_0.png \
+  --primary prostate
+```
