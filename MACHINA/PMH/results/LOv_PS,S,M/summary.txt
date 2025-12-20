@@ -1,7 +1,0 @@
-pattern_set	PS,S,M
-primary_site	LOv
-num_sites	7
-num_vertices	24
-mu_opt	15
-phi_opt	6
-sigma_opt	1

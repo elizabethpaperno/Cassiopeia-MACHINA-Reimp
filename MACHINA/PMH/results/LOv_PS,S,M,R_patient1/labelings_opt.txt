@@ -1,4 +1,4 @@
-# labeling 0	mu=13	phi=7	sigma=2
+# labeling 0	mu=13	gamma=7	sigma=2
 A	LOv
 A1	Om
 A2	SBwl
@@ -24,7 +24,7 @@ H1	ROv
 H2	LOv
 I1	ROv
 
-# labeling 1	mu=13	phi=7	sigma=2
+# labeling 1	mu=13	gamma=7	sigma=2
 A	LOv
 A1	Om
 A2	SBwl

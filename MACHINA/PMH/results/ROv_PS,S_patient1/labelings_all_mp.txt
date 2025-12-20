@@ -1,4 +1,4 @@
-# labeling 0	mu=14	phi=6	sigma=1
+# labeling 0	mu=14	gamma=6	sigma=1
 A	ROv
 A1	Om
 A2	SBwl

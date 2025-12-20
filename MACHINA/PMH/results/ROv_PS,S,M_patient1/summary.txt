@@ -3,7 +3,7 @@ primary_site	ROv
 num_sites	7
 num_vertices	24
 mu_opt	13
-phi_opt	10
+gamma_opt	10
 sigma_opt	2
 n_mp_labelings	1
 n_opt_labelings	1

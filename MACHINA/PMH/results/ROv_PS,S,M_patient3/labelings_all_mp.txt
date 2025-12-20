@@ -1,4 +1,4 @@
-# labeling 0	mu=27	phi=7	sigma=1
+# labeling 0	mu=27	gamma=7	sigma=1
 A	ROv
 A1	Om
 A2	CDSB
